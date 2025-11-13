@@ -79,14 +79,14 @@
 
 .profile-actions {
   display: flex;
-  gap: 15px;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 30px;
   padding-top: 20px;
   border-top: 2px solid #e0e0e0;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary, .btn-secondary, .btn-edit, .btn-delete {
   padding: 12px 24px;
   border: none;
   border-radius: 6px;
@@ -96,6 +96,31 @@
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  font-weight: 600;
+}
+
+.btn-edit {
+  background: linear-gradient(135deg, #43c6ac, #191654);
+  color: white;
+  box-shadow: 0 2px 8px rgba(67, 198, 172, 0.3);
+}
+
+.btn-edit:hover {
+  background: linear-gradient(135deg, #191654, #43c6ac);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(67, 198, 172, 0.4);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+.btn-delete:hover {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
 }
 
 .btn-primary {
@@ -155,6 +180,13 @@
   }
   
   .profile-actions {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .btn-edit, .btn-delete {
+    flex: 1;
+    max-width: 120px;
   }
 }

@@ -32,8 +32,8 @@ function Login() {
         // Use AuthContext login method
         login(data.data.token, data.data.user);
         
-        // Redirect to profile page
-        navigate('/profile');
+        // Redirect to dashboard page
+        navigate('/dashboard');
       } else {
         setError(data.message || 'Login failed');
       }

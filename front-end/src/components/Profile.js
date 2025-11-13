@@ -99,9 +99,6 @@ function Profile() {
       <div className="profile-card">
         <div className="profile-header">
           <h1>User Profile</h1>
-          <button onClick={handleLogout} className="btn-logout">
-            Logout
-          </button>
         </div>
         
         <div className="profile-info">
@@ -137,8 +134,8 @@ function Profile() {
         </div>
         
         <div className="profile-actions">
-          <button className="btn-secondary">Edit Profile</button>
-          <button className="btn-secondary">Change Password</button>
+          <button className="btn-edit">Edit</button>
+          <button className="btn-delete">Delete</button>
         </div>
       </div>
     </div>

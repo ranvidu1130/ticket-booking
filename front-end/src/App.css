@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f8ffae 0%, #43c6ac 100%);
+  min-height: 100vh;
+}
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}

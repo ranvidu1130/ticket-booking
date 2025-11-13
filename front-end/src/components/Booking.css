@@ -1,0 +1,363 @@
+.booking-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 80vh;
+}
+
+.booking-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.booking-header h1 {
+  color: #191654;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #43c6ac, #191654);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.booking-steps {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.step {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background: #f0f0f0;
+  color: #666;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.step.active {
+  background: linear-gradient(135deg, #43c6ac, #191654);
+  color: white;
+}
+
+/* Events Section */
+.events-section h2 {
+  color: #191654;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.event-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(67, 198, 172, 0.1);
+  transition: transform 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  border-color: #43c6ac;
+}
+
+.event-card h3 {
+  color: #191654;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.event-details p {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+.event-details .price {
+  color: #43c6ac;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.select-event-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(135deg, #43c6ac, #191654);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.select-event-btn:hover {
+  background: linear-gradient(135deg, #191654, #43c6ac);
+  transform: translateY(-2px);
+}
+
+/* Seat Selection */
+.seat-selection {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(67, 198, 172, 0.1);
+}
+
+.event-info {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.event-info h2 {
+  color: #191654;
+  margin-bottom: 0.5rem;
+}
+
+.event-info p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.seat-grid {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.screen {
+  background: linear-gradient(135deg, #43c6ac, #191654);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.seat-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.row-label {
+  width: 30px;
+  text-align: center;
+  font-weight: bold;
+  color: #191654;
+}
+
+.seat {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ddd;
+  background: #f8f8f8;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.seat:hover:not(.occupied) {
+  border-color: #43c6ac;
+  background: #f0fff4;
+}
+
+.seat.available {
+  background: #f8f8f8;
+  border-color: #ddd;
+}
+
+.seat.selected {
+  background: #43c6ac;
+  border-color: #43c6ac;
+  color: white;
+}
+
+.seat.occupied {
+  background: #ff6b6b;
+  border-color: #ff6b6b;
+  color: white;
+  cursor: not-allowed;
+}
+
+.seat:disabled {
+  cursor: not-allowed;
+}
+
+.booking-summary {
+  text-align: center;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8ffae10, #43c6ac10);
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.booking-summary p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #191654;
+}
+
+.booking-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Confirmation */
+.booking-confirmation {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(67, 198, 172, 0.1);
+  text-align: center;
+}
+
+.booking-confirmation h2 {
+  color: #191654;
+  margin-bottom: 2rem;
+}
+
+.confirmation-details {
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+.detail-group {
+  background: #f8f8f8;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.detail-group h3 {
+  color: #191654;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid #43c6ac;
+  padding-bottom: 0.3rem;
+}
+
+.detail-group p {
+  margin: 0.3rem 0;
+  color: #666;
+}
+
+.final-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary, .btn-confirm {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #43c6ac, #191654);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #191654, #43c6ac);
+  transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #43c6ac;
+  border: 2px solid #43c6ac;
+}
+
+.btn-secondary:hover {
+  background: #43c6ac;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+}
+
+.btn-confirm:hover {
+  background: linear-gradient(135deg, #20c997, #28a745);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .booking-container {
+    padding: 1rem;
+  }
+  
+  .booking-steps {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .seat-legend {
+    gap: 1rem;
+  }
+  
+  .seat {
+    width: 25px;
+    height: 25px;
+    font-size: 0.7rem;
+  }
+  
+  .booking-actions, .final-actions {
+    flex-direction: column;
+  }
+  
+  .btn-primary, .btn-secondary, .btn-confirm {
+    width: 100%;
+  }
+}

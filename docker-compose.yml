@@ -1,0 +1,58 @@
+
+services:
+  frontend:
+    build: 
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  backend:
+    build: 
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    environment:
+      - PORT=5000
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=ticket_booking
+      - JWT_SECRET=your-super-secret-jwt-key
+    networks:
+      - app-network
+    restart: always
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=ticket_booking
+      - MYSQL_USER=appuser
+      - MYSQL_PASSWORD=apppassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./back-end/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

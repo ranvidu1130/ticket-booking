@@ -27,6 +27,10 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
+// Import and use films routes
+const filmsRoutes = require('./routes/films');
+app.use('/api/films', filmsRoutes);
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({

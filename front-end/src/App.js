@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
+import UpdateProfile from './components/UpdateProfile';
 import Dashboard from './components/Dashboard';
 import Booking from './components/Booking';
 import Seating from './components/Seating';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/booking" element={<Booking />} />
             <Route path="/seating" element={<Seating />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/update-profile" element={<UpdateProfile />} />
           </Routes>
         </div>
       </Router>

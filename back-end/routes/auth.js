@@ -163,4 +163,83 @@ router.get('/profile', authenticateToken, (req, res) => {
     });
 });
 
+// Update user profile (protected route)
+router.put('/update', authenticateToken, async (req, res) => {
+    try {
+        const { email, password, first_name, last_name } = req.body;
+        const userId = req.user.id;
+
+        // Check if email is being changed and if it's already taken
+        if (email && email !== req.user.email) {
+            const existingUser = await User.findByEmail(email);
+            if (existingUser) {
+                return res.status(409).json({
+                    success: false,
+                    message: 'Email is already in use'
+                });
+            }
+        }
+
+        // Prepare update data
+        const updateData = {};
+        if (email) updateData.email = email;
+        if (first_name) updateData.first_name = first_name;
+        if (last_name) updateData.last_name = last_name;
+        if (password) updateData.password = password;
+
+        // Update user
+        const updatedUser = await User.update(userId, updateData);
+
+        if (!updatedUser) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Profile updated successfully',
+            data: {
+                user: updatedUser.toJSON()
+            }
+        });
+
+    } catch (error) {
+        console.error('Update profile error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
+});
+
+// Delete user account (protected route)
+router.delete('/delete', authenticateToken, async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const deleted = await User.delete(userId);
+
+        if (!deleted) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Account deleted successfully'
+        });
+
+    } catch (error) {
+        console.error('Delete account error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
+});
+
 module.exports = router;

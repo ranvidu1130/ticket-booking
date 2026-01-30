@@ -72,6 +72,62 @@ class User {
         return await bcrypt.compare(password, this.password);
     }
 
+    // Update user
+    static async update(id, updateData) {
+        try {
+            const updates = [];
+            const values = [];
+
+            if (updateData.email) {
+                updates.push('email = ?');
+                values.push(updateData.email);
+            }
+            if (updateData.first_name) {
+                updates.push('first_name = ?');
+                values.push(updateData.first_name);
+            }
+            if (updateData.last_name) {
+                updates.push('last_name = ?');
+                values.push(updateData.last_name);
+            }
+            if (updateData.password) {
+                const saltRounds = 10;
+                const hashedPassword = await bcrypt.hash(updateData.password, saltRounds);
+                updates.push('password = ?');
+                values.push(hashedPassword);
+            }
+
+            if (updates.length === 0) {
+                return await User.findById(id);
+            }
+
+            values.push(id);
+
+            await pool.execute(
+                `UPDATE users SET ${updates.join(', ')} WHERE id = ?`,
+                values
+            );
+
+            return await User.findById(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Delete user
+    static async delete(id) {
+        try {
+            const [result] = await pool.execute(
+                'DELETE FROM users WHERE id = ?',
+                [id]
+            );
+
+            return result.affectedRows > 0;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // Get user data without password
     toJSON() {
         const { password, ...userWithoutPassword } = this;

@@ -58,6 +58,41 @@ function Profile() {
     navigate('/');
   };
 
+  const handleEdit = () => {
+    navigate('/update-profile');
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      
+      const response = await fetch(`${apiUrl}/api/auth/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert('Account deleted successfully');
+        logout();
+        navigate('/');
+      } else {
+        alert(data.message || 'Failed to delete account');
+      }
+    } catch (err) {
+      alert('Error deleting account. Please try again.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="profile-container">
@@ -134,8 +169,8 @@ function Profile() {
         </div>
         
         <div className="profile-actions">
-          <button className="btn-edit">Edit</button>
-          <button className="btn-delete">Delete</button>
+          <button className="btn-edit" onClick={handleEdit}>Update</button>
+          <button className="btn-delete" onClick={handleDelete}>Delete</button>
         </div>
       </div>
     </div>

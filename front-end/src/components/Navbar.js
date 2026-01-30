@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import logo from '../assets/logo.png';
 import './Navbar.css';
 
 function Navbar() {
@@ -41,8 +42,8 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <div className="logo-placeholder">🎫</div>
-        <span className="logo-text">TicketPro</span>
+        <img src={logo} alt="FAUGET Logo" className="logo-image" />
+        <span className="logo-text">FAUGET</span>
       </div>
       <div className="navbar-links">
         {isAuthenticated ? (

@@ -1,0 +1,108 @@
+pipeline {
+    agent none
+
+    environment {
+        DOCKERHUB_CREDS = credentials('dockerhub-creds')
+        FRONTEND_IMAGE = 'ranvidu1130/ticket-booking-front-end'
+        BACKEND_IMAGE  = 'ranvidu1130/ticket-booking-back-end'
+    }
+
+    stages {
+
+        stage('Provision EC2') {
+            agent { label 'built-in' }
+            steps {
+                dir('/home/jenkins/tf-ec2') {
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Wait for Docker Builder Node') {
+            agent { label 'built-in' }
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitUntil {
+                        script {
+                            def node = Jenkins.instance.getNode('docker-builder')
+                            return node?.toComputer()?.isOnline()
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Checkout Repository') {
+            agent { label 'docker-builder' }
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/ranvidu1130/ticket-booking.git'
+            }
+        }
+
+        stage('Build Frontend Image') {
+            agent { label 'docker-builder' }
+            steps {
+                sh 'docker build -t $FRONTEND_IMAGE:latest ./front-end'
+            }
+        }
+
+        stage('Build Backend Image') {
+            agent { label 'docker-builder' }
+            steps {
+                sh 'docker build -t $BACKEND_IMAGE:latest ./back-end'
+            }
+        }
+
+        stage('Docker Login') {
+            agent { label 'docker-builder' }
+            steps {
+                sh '''
+                  echo $DOCKERHUB_CREDS_PSW | \
+                  docker login -u $DOCKERHUB_CREDS_USR --password-stdin
+                '''
+            }
+        }
+
+        stage('Push Frontend Image') {
+            agent { label 'docker-builder' }
+            steps {
+                sh 'docker push $FRONTEND_IMAGE:latest'
+            }
+        }
+
+        stage('Push Backend Image') {
+            agent { label 'docker-builder' }
+            steps {
+                sh 'docker push $BACKEND_IMAGE:latest'
+            }
+        }
+
+        stage('Docker Logout') {
+            agent { label 'docker-builder' }
+            steps {
+                sh 'docker logout'
+            }
+        }
+
+        stage('Destroy EC2') {
+            agent { label 'built-in' }
+            steps {
+                dir('/home/jenkins/tf-ec2') {
+                    sh 'terraform destroy -auto-approve'
+                }
+            }
+        }
+
+        stage('Deploy Containers (Ansible)') {
+            agent { label 'built-in' }
+            steps {
+                sh '''
+                  /home/jenkins/ansible/venv/bin/ansible-playbook \
+                  -i /home/jenkins/ansible/inventory \
+                  /home/jenkins/ansible/redeploy.yml
+                '''
+            }
+        }
+    }
+}

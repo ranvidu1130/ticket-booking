@@ -44,7 +44,7 @@ resource "aws_security_group" "allow_ssh" {
 resource "aws_instance" "docker_vm" {
   ami           = "ami-0b9064170e32bde34" # Ubuntu 22.04 (us-east-2)
   instance_type = "t3.small"
-  key_name      = "ansible"
+  key_name      = "ranvidu"
 
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 

@@ -47,7 +47,7 @@ function Dashboard() {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>Welcome to FAUGET Premium</h1>
+        <h1>Welcome to FAUGET Ranvidu</h1>
         <p>Hello {user?.first_name}, choose your film and book your tickets!</p>
       </div>
       

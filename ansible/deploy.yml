@@ -16,6 +16,7 @@
         name: ranvidu1130/ticket-booking-back-end
         tag: latest
         source: pull
+        force_source: yes
 
     - name: Run backend container
       docker_container:
@@ -32,12 +33,15 @@
           DB_USER: "{{ db_user }}"
           DB_PASSWORD: "{{ db_password }}"
           DB_NAME: "{{ db_name }}"
+          JWT_SECRET: "your-super-secret-jwt-key"
+          JWT_EXPIRES_IN: "24h"
 
     - name: Pull frontend image
       docker_image:
         name: ranvidu1130/ticket-booking-front-end:latest
         tag: latest
         source: pull
+        force_source: yes
 
     - name: Run frontend container
       docker_container:

@@ -5,47 +5,47 @@
   vars:
     backend_port: 5000
     frontend_port: 3000
-
+    db_name: ticket_booking
+    db_user: root
+    db_password: rootpassword
 
   tasks:
 
     - name: Pull backend image
       docker_image:
-        name: ranvidu1130/ticket-booking-backend
+        name: ranvidu1130/ticket-booking-back-end
         tag: latest
         source: pull
 
     - name: Run backend container
       docker_container:
         name: backend
-        image: ranvidu1130/ticket-booking-backend:latest
+        image: ranvidu1130/ticket-booking-back-end:latest
         state: started
         restart_policy: always
-        networks:
-          - name: app_network
         ports:
           - "{{ backend_port }}:{{ backend_port }}"
+        networks:
+          - name: devops
         env:
-          DB_HOST: mysql
+          DB_HOST: ticket-mysql
           DB_USER: "{{ db_user }}"
           DB_PASSWORD: "{{ db_password }}"
           DB_NAME: "{{ db_name }}"
 
     - name: Pull frontend image
       docker_image:
-        name: ranvidu1130/ticket-booking-frontend
+        name: ranvidu1130/ticket-booking-front-end:latest
         tag: latest
         source: pull
 
     - name: Run frontend container
       docker_container:
         name: frontend
-        image: ranvidu1130/ticket-booking-frontend:latest
+        image: ranvidu1130/ticket-booking-front-end:latest
         state: started
         restart_policy: always
-        networks:
-          - name: app_network
         ports:
-          - "{{ frontend_port }}:5173"
+          - "{{ frontend_port }}:80"
         env:
-          VITE_BACKEND_URL: "http://{{ ansible_host }}:{{ backend_port }}"
+          REACT_APP_API_URL: "http://{{ ansible_host }}:{{ backend_port }}"

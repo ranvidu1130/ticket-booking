@@ -17,6 +17,9 @@ RUN npm install && npm cache clean --force
 # Copy source code
 COPY . .
 
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Build the app
 RUN npm run build
 

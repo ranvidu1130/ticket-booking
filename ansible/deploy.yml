@@ -1,0 +1,83 @@
+- name: Deploy Ticket Booking App
+  hosts: webserver
+  become: yes
+
+  vars:
+    backend_port: 5000
+    frontend_port: 3000
+    db_name: ticket_booking
+    db_user: root
+    db_password: rootpassword
+
+  tasks:
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create Docker network
+      docker_network:
+        name: app_network
+
+    - name: Run MySQL container
+      docker_container:
+        name: mysql
+        image: mysql:8
+        state: started
+        restart_policy: always
+        networks:
+          - name: app_network
+        env:
+          MYSQL_ROOT_PASSWORD: "{{ db_password }}"
+          MYSQL_DATABASE: "{{ db_name }}"
+        ports:
+          - "3306:3306"
+
+    - name: Pull backend image
+      docker_image:
+        name: ranvidu1130/skillstack-backend
+        tag: latest
+        source: pull
+
+    - name: Run backend container
+      docker_container:
+        name: backend
+        image: ranvidu1130/skillstack-backend:latest
+        state: started
+        restart_policy: always
+        networks:
+          - name: app_network
+        ports:
+          - "{{ backend_port }}:{{ backend_port }}"
+        env:
+          DB_HOST: mysql
+          DB_USER: "{{ db_user }}"
+          DB_PASSWORD: "{{ db_password }}"
+          DB_NAME: "{{ db_name }}"
+
+    - name: Pull frontend image
+      docker_image:
+        name: ranvidu1130/skillstack-frontend
+        tag: latest
+        source: pull
+
+    - name: Run frontend container
+      docker_container:
+        name: frontend
+        image: ranvidu1130/skillstack-frontend:latest
+        state: started
+        restart_policy: always
+        networks:
+          - name: app_network
+        ports:
+          - "{{ frontend_port }}:5173"
+        env:
+          VITE_BACKEND_URL: "http://{{ ansible_host }}:{{ backend_port }}"

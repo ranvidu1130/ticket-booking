@@ -29,7 +29,7 @@ docker-compose up --build
 This will start:
 - Frontend on http://localhost:3000
 - Backend API on http://localhost:5000
-- MongoDB on port 27017
+
 
 ### Local Development
 
